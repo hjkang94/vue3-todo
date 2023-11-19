@@ -1,20 +1,20 @@
 <template>
-  <Card v-if="!isShowTodoForm" @click="showTodoForm">
+  <Card v-if="!isTodoFormVisible" @click="toggleTodoForm">
     <div class="todo-item">
-      <div class="todo-area">
-        <h2 class="truncate">{{ todo.title }}</h2>
+      <div class="todo-item-row">
+        <h2 class="text-truncate">{{ todo.title }}</h2>
         <p>{{ formattedDate }}</p>
       </div>
-      <div class="todo-area">
-        <p class="truncate">{{ todo.content }}</p>
+      <div class="todo-item-row">
+        <p class="text-truncate">{{ todo.content }}</p>
         <p>{{ selectedStatus }}</p>
       </div>
     </div>
   </Card>
   <TodoForm
-    v-if="isShowTodoForm"
+    v-if="isTodoFormVisible"
     :todoId="todoId"
-    @showTodoForm="showTodoForm"
+    @toggleTodoForm="toggleTodoForm"
     :statuses="statuses"
   />
 </template>
@@ -27,10 +27,10 @@ import TodoForm from '../components/TodoForm.vue'
 
 const props = defineProps(['todo', 'statuses'])
 const todoId = props.todo.id
-const isShowTodoForm = ref(false)
+const isTodoFormVisible = ref(false)
 
-const showTodoForm = () => {
-  isShowTodoForm.value = !isShowTodoForm.value
+const toggleTodoForm = () => {
+  isTodoFormVisible.value = !isTodoFormVisible.value
 }
 
 const selectedStatus = computed(() => {
@@ -48,7 +48,7 @@ const formattedDate = computed(() => {
   font-size: 0.9em;
 }
 
-.todo-area {
+.todo-item-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -61,7 +61,7 @@ const formattedDate = computed(() => {
   align-items: center;
 }
 
-.truncate {
+.text-truncate {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

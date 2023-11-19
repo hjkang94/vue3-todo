@@ -8,11 +8,13 @@
       />
       <CustomInput v-model="searchText" type="text" placeholder="검색어를 입력하세요" />
     </div>
-    <CustomButton v-if="!isShowTodoForm" @click="showTodoForm" width="100%">추가</CustomButton>
+    <CustomButton v-if="!isTodoFormVisible" @click="toggleTodoForm" width="100%">
+      추가
+    </CustomButton>
 
-    <TodoForm v-if="isShowTodoForm" @showTodoForm="showTodoForm" :statuses="statuses" />
+    <TodoForm v-if="isTodoFormVisible" @toggleTodoForm="toggleTodoForm" :statuses="statuses" />
 
-    <div class="todo-list">
+    <div class="todo-list-container">
       <TodoItem v-for="todo in filteredTodos" :key="todo.id" :todo="todo" :statuses="statuses" />
     </div>
   </div>
@@ -32,7 +34,7 @@ const store = useStore()
 const selectedCategory = ref(store.state.selectedCategory)
 const todos = computed(() => store.state.todos)
 
-const isShowTodoForm = ref(false)
+const isTodoFormVisible = ref(false)
 const statuses = [
   {
     key: 'notStarted',
@@ -80,8 +82,8 @@ const updateSelectedCategory = () => {
   store.dispatch('updateSelectedCategory', selectedCategory.value)
 }
 
-const showTodoForm = () => {
-  isShowTodoForm.value = !isShowTodoForm.value
+const toggleTodoForm = () => {
+  isTodoFormVisible.value = !isTodoFormVisible.value
 }
 </script>
 
@@ -94,7 +96,7 @@ const showTodoForm = () => {
   gap: 10px;
   margin-bottom: 20px;
 }
-.todo-list {
+.todo-list-container {
   display: flex;
   flex-wrap: wrap;
   margin-top: 20px;

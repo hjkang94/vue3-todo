@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <form class="add-form" @submit.prevent="saveTodo">
+    <form class="todo-form" @submit.prevent="saveTodo">
       <CustomInput
         v-model="newItem.title"
         id="title"
@@ -60,7 +60,7 @@ import dayjs from 'dayjs'
 
 const store = useStore()
 const router = useRouter()
-const emit = defineEmits(['showTodoForm'])
+const emit = defineEmits(['toggleTodoForm'])
 const props = defineProps(['todoId', 'statuses'])
 const todoId = props.todoId
 const regexDate = /^\d{4}-\d{2}-\d{2}$/
@@ -104,19 +104,19 @@ const saveTodo = () => {
     store.dispatch('addTodo', newItem.value)
   }
 
-  emit('showTodoForm')
+  emit('toggleTodoForm')
 }
 
 const closeTodoForm = () => {
-  emit('showTodoForm')
+  emit('toggleTodoForm')
 }
 </script>
 
 <style scope>
-.add-form input[type='text'],
-.add-form textarea,
-.add-form input[type='date'],
-.add-form select {
+.todo-form input[type='text'],
+.todo-form textarea,
+.todo-form input[type='date'],
+.todo-form select {
   width: 100%;
   padding: 10px;
   margin-top: 16px;
@@ -125,7 +125,7 @@ const closeTodoForm = () => {
   box-sizing: border-box;
 }
 
-.add-form textarea {
+.todo-form textarea {
   height: 100px;
 }
 
